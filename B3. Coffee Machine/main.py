@@ -15,6 +15,8 @@ def clear():
 
 
 def insert_coins(price_drink, coffee):
+    """"Take inputs for the number of coins of each type and calculate the total
+    amount inserted. Return change if there's too much and restart if there's too little."""
     p = int(input("How many pennies would you like to insert? "))
     n = int(input("How many nickels would you like to insert? "))
     d = int(input("How many dime would you like to insert? "))
@@ -33,6 +35,7 @@ def insert_coins(price_drink, coffee):
 
 
 def report():
+    """"Print the number of resources left in the machine."""
     formatted_money = "{:.2f}".format(money)
     print(f"Water: {resources['water']}ml")
     print(f"Coffee: {resources['coffee']}g")
@@ -41,6 +44,8 @@ def report():
 
 
 def report_resources(drink):
+    """Reduce number of resource and check if there is enough to follow through with the
+    order based on the input"""
     resources['water'] -= MENU[drink.capitalize()]['water']
     resources['coffee'] -= MENU[drink.capitalize()]['coffee']
     resources['milk'] -= MENU[drink.capitalize()]['milk']
