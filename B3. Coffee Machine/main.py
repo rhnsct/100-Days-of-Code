@@ -49,8 +49,8 @@ def report():
 
 
 def report_resources(drink):
-    """Reduce number of resource and check if there is enough to follow through with the
-    order based on the input"""
+    """Check if there is enough to follow through with the
+    order based on the input, returning the price of the drink if there is enough resources."""
     drink_cost = MENU[drink.capitalize()]['price']
     order_drink = MENU[drink.capitalize()]
     for item in resources:
