@@ -21,7 +21,7 @@ def insert_coins(price_drink, coffee):
     n = int(input("How many nickels would you like to insert? "))
     d = int(input("How many dime would you like to insert? "))
     q = int(input("How many quarters would you like to insert? "))
-
+    clear()
     total_inserted = (p * PENNY) + (n * NICKEL) + (d * DIME) + (q * QUARTER)
     total_inserted_formatted = "{:.2f}".format(total_inserted)
     change = total_inserted - price_drink
@@ -46,23 +46,16 @@ def report():
 def report_resources(drink):
     """Reduce number of resource and check if there is enough to follow through with the
     order based on the input"""
-    resources['water'] -= MENU[drink.capitalize()]['water']
-    resources['coffee'] -= MENU[drink.capitalize()]['coffee']
-    resources['milk'] -= MENU[drink.capitalize()]['milk']
     drink_cost = MENU[drink.capitalize()]['price']
-
-    if resources['water'] < 0:
-        print("Not enough water. Turn off and replace.")
-        return False
-    elif resources['coffee'] < 0:
-        print("Not enough coffee. Turn off and replace.")
-        return False
-    elif resources['milk'] < 0:
-        print("Not enough milk. Turn off and replace.")
-        return False
-    else:
-        print(f"The drink costs ${drink_cost}.")
-        return drink_cost
+    order_drink = MENU[drink.capitalize()]
+    for item in resources:
+        if order_drink[item] > resources[item]:
+            print(f"There is not enough {item}")
+            return False
+        else:
+            resources[item] -= MENU[drink.capitalize()][item]
+    print(f"The drink costs ${drink_cost}.")
+    return drink_cost
 
 
 while power:
@@ -70,8 +63,8 @@ while power:
     if prompt == 'espresso' or prompt == 'latte' or prompt == 'cappuccino':
         report_check = report_resources(prompt)
         if report_check:
+
             insert_coins(report_check, prompt)
-            clear()
             money += report_check
             report()
 
@@ -83,6 +76,3 @@ while power:
         power = False
         clear()
         print('Powering down.')
-
-
-
