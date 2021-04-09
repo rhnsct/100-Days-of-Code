@@ -17,21 +17,26 @@ def clear():
 def insert_coins(price_drink, coffee):
     """"Take inputs for the number of coins of each type and calculate the total
     amount inserted. Return change if there's too much and restart if there's too little."""
-    p = int(input("How many pennies would you like to insert? "))
-    n = int(input("How many nickels would you like to insert? "))
-    d = int(input("How many dime would you like to insert? "))
-    q = int(input("How many quarters would you like to insert? "))
+    total = int(input("How many pennies would you like to insert? ")) * PENNY
+    total += int(input("How many nickels would you like to insert? ")) * NICKEL
+    total += int(input("How many dime would you like to insert? ")) * DIME
+    total += int(input("How many quarters would you like to insert? ")) * QUARTER
+    clear()
 
-    total_inserted = (p * PENNY) + (n * NICKEL) + (d * DIME) + (q * QUARTER)
-    total_inserted_formatted = "{:.2f}".format(total_inserted)
-    change = total_inserted - price_drink
+    total_formatted = "{:.2f}".format(total)
+    change = total - price_drink
     change_formatted = "{:.2f}".format(change)
+
     if change > 0:
+        for item in resources:
+            resources[item] -= MENU[coffee.capitalize()][item]
         print(f"Here's your change of ${change_formatted}. Enjoy your {coffee}.")
     elif change == 0:
+        for item in resources:
+            resources[item] -= MENU[coffee.capitalize()][item]
         print(f"Enjoy your {coffee}.")
     else:
-        print(f"You did not insert enough coins, ${total_inserted_formatted}, try again.")
+        print(f"You did not insert enough coins, ${total_formatted}, try again.")
 
 
 def report():
@@ -44,25 +49,17 @@ def report():
 
 
 def report_resources(drink):
-    """Reduce number of resource and check if there is enough to follow through with the
-    order based on the input"""
-    resources['water'] -= MENU[drink.capitalize()]['water']
-    resources['coffee'] -= MENU[drink.capitalize()]['coffee']
-    resources['milk'] -= MENU[drink.capitalize()]['milk']
+    """Check if there is enough to follow through with the
+    order based on the input, returning the price of the drink if there is enough resources."""
     drink_cost = MENU[drink.capitalize()]['price']
+    order_drink = MENU[drink.capitalize()]
+    for item in resources:
+        if order_drink[item] > resources[item]:
+            print(f"There is not enough {item}")
+            return False
 
-    if resources['water'] < 0:
-        print("Not enough water. Turn off and replace.")
-        return False
-    elif resources['coffee'] < 0:
-        print("Not enough coffee. Turn off and replace.")
-        return False
-    elif resources['milk'] < 0:
-        print("Not enough milk. Turn off and replace.")
-        return False
-    else:
-        print(f"The drink costs ${drink_cost}.")
-        return drink_cost
+    print(f"The drink costs ${drink_cost}.")
+    return drink_cost
 
 
 while power:
@@ -70,10 +67,9 @@ while power:
     if prompt == 'espresso' or prompt == 'latte' or prompt == 'cappuccino':
         report_check = report_resources(prompt)
         if report_check:
-            insert_coins(report_check, prompt)
-            clear()
-            money += report_check
-            report()
+            if insert_coins(report_check, prompt):
+                money += report_check
+        report()
 
     elif prompt == 'report':
         clear()
@@ -83,6 +79,3 @@ while power:
         power = False
         clear()
         print('Powering down.')
-
-
-
