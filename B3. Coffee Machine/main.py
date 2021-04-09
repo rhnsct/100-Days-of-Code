@@ -31,12 +31,15 @@ def insert_coins(price_drink, coffee):
         for item in resources:
             resources[item] -= MENU[coffee.capitalize()][item]
         print(f"Here's your change of ${change_formatted}. Enjoy your {coffee}.")
+        return True
     elif change == 0:
         for item in resources:
             resources[item] -= MENU[coffee.capitalize()][item]
         print(f"Enjoy your {coffee}.")
+        return True
     else:
         print(f"You did not insert enough coins, ${total_formatted}, try again.")
+        return False
 
 
 def report():
@@ -66,7 +69,7 @@ while power:
     prompt = input("What would you like? (espresso/latte/cappuccino): ")
     if prompt == 'espresso' or prompt == 'latte' or prompt == 'cappuccino':
         report_check = report_resources(prompt)
-        if report_check:
+        if report_check > 0:
             if insert_coins(report_check, prompt):
                 money += report_check
         report()
