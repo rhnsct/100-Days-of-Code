@@ -13,7 +13,6 @@ score = Scoreboard()
 car_manager = CarManager()
 player = Player()
 
-
 screen.listen()
 screen.onkey(player.move_forward, 'Up')
 
