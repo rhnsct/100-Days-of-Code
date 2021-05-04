@@ -6,6 +6,25 @@ window.title("Mile to Km converter")
 window.minsize(width=200, height=100)
 window.config(padx=25, pady=25)
 
+OPTIONS = [
+    "kilometer",
+    "Meter",
+    "Centimeter",
+    "Millimeter",
+    "Micrometer",
+    "Nanometer",
+    "Mile",
+    "Yard",
+    "Foot",
+    "Inch",
+    "Nautical Mile"
+]
+
+# choices = StringVar(window)
+# choices.set(OPTIONS[0])
+
+# choice_1 = OptionMenu(window, choices, *OPTIONS)
+# choice_1.grid(column=0, row=0)
 
 def convert_entry():
     miles = miles_input.get()
