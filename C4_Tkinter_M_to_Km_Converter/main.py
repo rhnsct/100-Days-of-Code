@@ -159,10 +159,6 @@ def calculate_result():
             output_result.config(text=result)
             
 
-
-
-
-
 # Input value to be converted
 unit_input = Entry(width=10)
 unit_input.insert(END, string=0)
