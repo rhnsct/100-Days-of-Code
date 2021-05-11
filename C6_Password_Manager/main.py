@@ -1,4 +1,5 @@
 import pyperclip
+import json
 from tkinter import *
 from tkinter import messagebox
 from random import randint, choice, shuffle
@@ -29,26 +30,61 @@ def password_generator():
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 
 def save_data():
-    website = website_entry.get()
+    website = website_entry.get().lower()
     uname = uname_entry.get()
     password = password_entry.get()
-    
-
-    error_message = messagebox.showerror("Missing", "Field cannot be empty!")
+    new_data = {
+        website: {
+            "email": uname,
+            "password": password,
+        }
+    }
     
     if len(website) == 0 or len(uname) == 0 or len(password) == 0:
-        error_message
-    else:
-        is_ok = messagebox.askyesno("Correct?", f"""Is this information correct?
-                                \nWebsite: {website}\nEmail/Username: {uname}\nPassword: {password}""")
+        messagebox.showerror("Missing", "Field cannot be empty!")
+        return
+    try:  
+        with open("manager.json", "r") as pass_manager:
+            data = json.load(pass_manager)
             
-        if is_ok:   
-            with open("manager.txt", 'a') as pass_manager:
-                pass_manager.write(f"Website: {website} |Email/Username: {uname} |Password: {password}\n")     
             
-            website_entry.delete(0, END)
-            password_entry.delete(0, END)
+    except FileNotFoundError:
+        with open("manager.json", 'w') as pass_manager:
+
+            json.dump(new_data, pass_manager, indent=4)
+                
+    else:  
+        data.update(new_data)
+        
+        with open("manager.json", 'w') as pass_manager:
+            
+            json.dump(data, pass_manager, indent=4)
     
+    finally: 
+        website_entry.delete(0, END)
+        password_entry.delete(0, END)
+    
+# ---------------------------- Search ------------------------------- #
+
+def search():
+    website = website_entry.get().lower()
+    try:
+        with open("manager.json", 'r') as pass_data:
+            dic = json.load(pass_data)
+            
+    except FileNotFoundError:
+        messagebox.showerror("No file", "No entries found")
+    
+
+    else: 
+        if website in dic:
+            user_name = dic[website]["email"]
+            password = dic[website]["password"]
+            messagebox.showinfo(website, f"Email/Username: {user_name}\nPassword: {password}\n\nPassword copied.")
+            pyperclip.copy(password)
+        else:
+            messagebox.showerror("No Entry", f'No entry with name "{website}".')
+        
 # ---------------------------- UI SETUP ------------------------------- #
 
 
@@ -75,12 +111,15 @@ password_label.grid(column=0, row=3, sticky="E")
 add_button = Button(text="Add", width=44, command=save_data)
 add_button.grid(column=1, row=4, columnspan=2, sticky="E")
 
-generate_password_button = Button(text="Generate Password", command=password_generator)
+generate_password_button = Button(text="Generate Password", width=15, command=password_generator)
 generate_password_button.grid(column=2, row=3, sticky="E")
 
+search_button = Button(text="Search", width=15, command=search)
+search_button.grid(column=2, row=1, sticky="E")
+
 # Entry 
-website_entry = Entry(width=52)
-website_entry.grid(column=1, row=1, columnspan=2, sticky="W")
+website_entry = Entry(width=33)
+website_entry.grid(column=1, row=1, sticky="W")
 website_entry.focus()
 
 uname_entry = Entry(width=52)
