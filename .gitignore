@@ -2,3 +2,11 @@ C3_NATO_Alphabet/.vscode/settings.json
 C7_Flashcard_Application/.vscode/settings.json
 C8_Birthday_Wisher/.vscode/settings.json
 C9_ISS_Overhead/.vscode/settings.json
+D1_Quizz_App/.vscode/settings.json
+D1_Quizz_App/__pycache__/data.cpython-39.pyc
+D1_Quizz_App/__pycache__/question_model.cpython-39.pyc
+D1_Quizz_App/__pycache__/quiz_brain.cpython-39.pyc
+D1_Quizz_App/__pycache__/ui.cpython-39.pyc
+D2_Morning_Rain_SMS/.vscode/settings.json
+D2_Morning_Rain_SMS/data.txt
+D2_Morning_Rain_SMS/48h_weather.json
