@@ -1,4 +1,5 @@
 import requests
+import os
 from twilio.rest import Client
 
 # Ordered by apparent severity
@@ -11,9 +12,9 @@ weather_conditions = [
 
 # OpenWeatherMap inputs
 OWM_Endpoint = "https://api.openweathermap.org/data/2.5/onecall"
-weather_api_key = "API_KEY"
-my_long = 32.41
-my_lat = 75.19
+weather_api_key = os.environ.get("OWM_API_KEY")
+my_long = 0.1278
+my_lat = 51.5074
 hours_outside = 12
 
 parameters = {
@@ -26,10 +27,10 @@ parameters = {
 }
 
 # Twilio inputs
-account_sid = "TWILIO SID"
-auth_token = "TWILIO AUTH TOKEN"
-sender_number = "TWILIO NUMBER"
-receiver_number = "NUMBER OF THE RECEIVER"
+account_sid = os.environ.get("TWILIO_ACCOUNT_SID")
+auth_token = os.environ.get("TWILIO_AUTH_TOKEN")
+sender_number = "num_with_area_code"
+receiver_number = "num_with_area_code"
 
 
 # Weather Data
