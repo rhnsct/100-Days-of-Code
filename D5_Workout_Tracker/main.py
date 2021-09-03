@@ -1,6 +1,10 @@
 import requests
+import os
+
+nx_app_id = os.environ.get("APP_ID")
+nx_app_key = os.environ.get("APP_KEY")
 
 
-nutritionix_app_id = "8819c40a"
-nutritionix_app_key = "e54ddd64ffab3b3f0a130abe3cd4f6fd"
+print(nx_app_id)
+print(nx_app_key)
 
