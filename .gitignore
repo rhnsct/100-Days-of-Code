@@ -15,3 +15,8 @@ D2_Morning_Rain_SMS/data.txt
 D2_Morning_Rain_SMS/48h_weather.json
 D5_Workout_Tracker/env.txt
 D5_Workout_Tracker/.env
+D6_Cheap_Flight_Finder/.env
+Pipfile
+.env
+D6_Cheap_Flight_Finder/__pycache__/data_manager.cpython-39.pyc
+Pipfile.lock
